@@ -81,6 +81,13 @@ class LocalAdapterTests extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testRelativeRootPathListing()
+    {
+        (new Local(__DIR__ . '/files/', LOCK_EX))->write('file.txt', 'contents', new Config());
+        $adapter = new Local(__DIR__ . '/files/../files/', LOCK_EX);
+        $this->assertCount(0, $adapter->listContents());
+    }
+
     public function testHasWithDir()
     {
         $this->adapter->createDir('0', new Config());
