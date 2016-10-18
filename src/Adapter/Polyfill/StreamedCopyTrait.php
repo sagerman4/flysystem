@@ -36,7 +36,7 @@ trait StreamedCopyTrait
     /**
      * @param string $path
      */
-    abstract public function readStream($path);
+    abstract public function readStream($path, Config $config);
 
     /**
      * @param string $path

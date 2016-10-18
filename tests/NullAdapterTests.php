@@ -45,7 +45,7 @@ class NullAdapterTest extends PHPUnit_Framework_TestCase
     public function testDelete()
     {
         $adapter = $this->getAdapter();
-        $this->assertFalse($adapter->delete('something'));
+        $this->assertFalse($adapter->delete('something', new Config()));
     }
 
     public function expectedFailsProvider()
@@ -72,7 +72,7 @@ class NullAdapterTest extends PHPUnit_Framework_TestCase
     public function testExpectedFails($method, $result = false)
     {
         $adapter = new NullAdapter();
-        $this->assertEquals($result, $adapter->{$method}('one', 'two', new Config()));
+        $this->assertEquals($result, ($method === 'read' or $method === 'delete') ? $adapter->{$method}('one', new Config()) : $adapter->{$method}('one', 'two', new Config()));
     }
 
     public function expectedArrayResultProvider()

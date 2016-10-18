@@ -82,10 +82,11 @@ interface AdapterInterface extends ReadInterface
      * Delete a file.
      *
      * @param string $path
+     * @param Config   $config   Config object
      *
      * @return bool
      */
-    public function delete($path);
+    public function delete($path, Config $config);
 
     /**
      * Delete a directory.

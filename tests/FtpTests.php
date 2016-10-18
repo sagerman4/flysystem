@@ -390,11 +390,11 @@ class FtpTests extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $listing);
         $this->assertGetterFailuresReturnFalse($adapter);
         $this->assertTrue($adapter->rename('a', 'b'));
-        $this->assertTrue($adapter->delete('a'));
+        $this->assertTrue($adapter->delete('a', new Config()));
         $this->assertFalse($adapter->deleteDir('some.nested/rmdir.fail'));
         $this->assertFalse($adapter->deleteDir('rmdir.nested.fail'));
         $this->assertTrue($adapter->deleteDir('somewhere'));
-        $result = $adapter->read('something.txt');
+        $result = $adapter->read('something.txt', new Config());
         $this->assertEquals('contents', $result['contents']);
         $result = $adapter->getMimetype('something.txt');
         $this->assertEquals('text/plain', $result['mimetype']);
@@ -733,7 +733,7 @@ class FtpTests extends \PHPUnit_Framework_TestCase
     public function testReadFailure()
     {
         $adapter = new Ftp($this->options + ['systemType' => 'unix']);
-        $this->assertFalse($adapter->read('not.found'));
+        $this->assertFalse($adapter->read('not.found', new Config()));
     }
 
     /**

@@ -170,8 +170,8 @@ class FilesystemTests extends \PHPUnit_Framework_TestCase
         $path = 'path.txt';
         $output = '__CONTENTS__';
         $this->prophecy->has($path)->willReturn(true);
-        $this->prophecy->read($path)->willReturn(['contents' => $output]);
-        $this->prophecy->delete($path)->willReturn(true);
+        $this->prophecy->read($path, Argument::type(Config::class))->willReturn(['contents' => $output]);
+        $this->prophecy->delete($path, Argument::type(Config::class))->willReturn(true);
         $response = $this->filesystem->readAndDelete($path);
         $this->assertEquals($output, $response);
     }
@@ -180,7 +180,7 @@ class FilesystemTests extends \PHPUnit_Framework_TestCase
     {
         $path = 'path.txt';
         $this->prophecy->has($path)->willReturn(true);
-        $this->prophecy->read($path)->willReturn(false);
+        $this->prophecy->read($path, Argument::type(Config::class))->willReturn(false);
         $response = $this->filesystem->readAndDelete($path);
         $this->assertFalse($response);
     }
@@ -190,8 +190,26 @@ class FilesystemTests extends \PHPUnit_Framework_TestCase
         $path = 'path.txt';
         $output = '__CONTENTS__';
         $this->prophecy->has($path)->willReturn(true);
-        $this->prophecy->read($path)->willReturn(['contents' => $output]);
-        $response = $this->filesystem->read($path);
+        $this->prophecy->read($path, Argument::type(Config::class))->willReturn(['contents' => $output]);
+        $response = $this->filesystem->read($path, []);
+        $this->assertEquals($response, $output);
+    }
+
+    public function testReadWithConfigArguments()
+    {
+        $path = 'path.txt';
+        $output = '__CONTENTS__';
+        $config = ['test_property' => 'test_value'];
+        $this->prophecy->has($path)->willReturn(true);
+        $this->prophecy->read(
+            $path, 
+            Argument::that(
+                function($argument) {
+                    return $argument instanceof Config and $argument->get('test_property') === 'test_value';
+                }
+            )
+        )->willReturn(['contents' => $output]);
+        $response = $this->filesystem->read($path, $config);
         $this->assertEquals($response, $output);
     }
 
@@ -200,8 +218,26 @@ class FilesystemTests extends \PHPUnit_Framework_TestCase
         $path = 'path.txt';
         $output = '__CONTENTS__';
         $this->prophecy->has($path)->willReturn(true);
-        $this->prophecy->readStream($path)->willReturn(['stream' => $output]);
-        $response = $this->filesystem->readStream($path);
+        $this->prophecy->readStream($path, Argument::type(Config::class))->willReturn(['stream' => $output]);
+        $response = $this->filesystem->readStream($path, []);
+        $this->assertEquals($response, $output);
+    }
+
+    public function testReadStreamWithConfigArguments()
+    {
+        $path = 'path.txt';
+        $output = '__CONTENTS__';
+        $config = ['test_property' => 'test_value'];
+        $this->prophecy->has($path)->willReturn(true);
+        $this->prophecy->readStream(
+            $path, 
+            Argument::that(
+                function($argument) {
+                    return $argument instanceof Config and $argument->get('test_property') === 'test_value';
+                }
+            )
+        )->willReturn(['stream' => $output]);
+        $response = $this->filesystem->readStream($path, $config);
         $this->assertEquals($response, $output);
     }
 
@@ -209,8 +245,8 @@ class FilesystemTests extends \PHPUnit_Framework_TestCase
     {
         $path = 'path.txt';
         $this->prophecy->has($path)->willReturn(true);
-        $this->prophecy->readStream($path)->willReturn(false);
-        $response = $this->filesystem->readStream($path);
+        $this->prophecy->readStream($path, Argument::type(Config::class))->willReturn(false);
+        $response = $this->filesystem->readStream($path, []);
         $this->assertFalse($response);
     }
 

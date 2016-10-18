@@ -17,23 +17,25 @@ interface FilesystemInterface
      * Read a file.
      *
      * @param string $path The path to the file.
+     * @param array  $config   An optional configuration array.
      *
      * @throws FileNotFoundException
      *
      * @return string|false The file contents or false on failure.
      */
-    public function read($path);
+    public function read($path, array $config = []);
 
     /**
      * Retrieves a read-stream for a path.
      *
      * @param string $path The path to the file.
-     *
+     * @param array  $config   An optional configuration array.
+     * 
      * @throws FileNotFoundException
      *
      * @return resource|false The path resource or false on failure.
      */
-    public function readStream($path);
+    public function readStream($path, array $config = []);
 
     /**
      * List contents of a directory.
@@ -182,12 +184,13 @@ interface FilesystemInterface
      * Delete a file.
      *
      * @param string $path
+     * @param array  $config  An optional configuration array.
      *
      * @throws FileNotFoundException
      *
      * @return bool True on success, false on failure.
      */
-    public function delete($path);
+    public function delete($path, array $config = []);
 
     /**
      * Delete a directory.

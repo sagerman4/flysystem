@@ -17,19 +17,21 @@ interface ReadInterface
      * Read a file.
      *
      * @param string $path
+     * @param Config $config   Config object
      *
      * @return array|false
      */
-    public function read($path);
+    public function read($path, Config $config);
 
     /**
      * Read a file as a stream.
      *
      * @param string $path
+     * @param Config $config   Config object
      *
      * @return array|false
      */
-    public function readStream($path);
+    public function readStream($path, Config $config);
 
     /**
      * List contents of a directory.

@@ -168,7 +168,7 @@ class Local extends AbstractAdapter
     /**
      * @inheritdoc
      */
-    public function readStream($path)
+    public function readStream($path, Config $config)
     {
         $location = $this->applyPathPrefix($path);
         $stream = fopen($location, 'rb');
@@ -203,7 +203,7 @@ class Local extends AbstractAdapter
     /**
      * @inheritdoc
      */
-    public function read($path)
+    public function read($path, Config $config)
     {
         $location = $this->applyPathPrefix($path);
         $contents = file_get_contents($location);
@@ -243,7 +243,7 @@ class Local extends AbstractAdapter
     /**
      * @inheritdoc
      */
-    public function delete($path)
+    public function delete($path, Config $config)
     {
         $location = $this->applyPathPrefix($path);
 

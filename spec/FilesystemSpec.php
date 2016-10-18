@@ -190,14 +190,14 @@ class FilesystemSpec extends ObjectBehavior
     public function it_should_forward_delete_calls()
     {
         $this->adapter->has('file')->willReturn(true);
-        $this->adapter->delete('file')->willReturn(true);
+        $this->adapter->delete('file', Argument::type('League\Flysystem\Config'))->willReturn(true);
         $this->delete('file')->shouldReturn(true);
     }
 
     public function it_should_return_false_when_failing_to_delete_a_file()
     {
         $this->adapter->has('file')->willReturn(true);
-        $this->adapter->delete('file')->willReturn(false);
+        $this->adapter->delete('file', Argument::type('League\Flysystem\Config'))->willReturn(false);
         $this->delete('file')->shouldReturn(false);
     }
 
@@ -210,15 +210,15 @@ class FilesystemSpec extends ObjectBehavior
     public function it_should_return_false_when_read_fails_during_readAndDelete()
     {
         $this->adapter->has('file')->willReturn(true);
-        $this->adapter->read('file')->willReturn(false);
+        $this->adapter->read('file', Argument::type('League\Flysystem\Config'))->willReturn(false);
         $this->readAndDelete('file')->shouldReturn(false);
     }
 
     public function it_should_delete_after_reading_during_readAndDelete()
     {
         $this->adapter->has('file')->willReturn(true);
-        $this->adapter->read('file')->willReturn(['contents' => 'contents']);
-        $this->adapter->delete('file')->shouldBeCalled();
+        $this->adapter->read('file', Argument::type('League\Flysystem\Config'))->willReturn(['contents' => 'contents']);
+        $this->adapter->delete('file', Argument::type('League\Flysystem\Config'))->shouldBeCalled();
         $this->readAndDelete('file')->shouldReturn('contents');
     }
 
