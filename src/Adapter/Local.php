@@ -168,7 +168,7 @@ class Local extends AbstractAdapter
     /**
      * @inheritdoc
      */
-    public function readStream($path, Config $confi)
+    public function readStream($path, Config $config)
     {
         $location = $this->applyPathPrefix($path);
         $stream = fopen($location, 'rb');
