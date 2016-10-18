@@ -49,7 +49,7 @@ class NullAdapter extends AbstractAdapter
     /**
      * @inheritdoc
      */
-    public function read($path, Config $confi)
+    public function read($path, Config $config)
     {
         return false;
     }
