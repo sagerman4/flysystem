@@ -261,7 +261,7 @@ class Ftp extends AbstractFtpAdapter
     /**
      * @inheritdoc
      */
-    public function delete($path)
+    public function delete($path, Config $config)
     {
         return ftp_delete($this->getConnection(), $path);
     }
@@ -397,9 +397,9 @@ class Ftp extends AbstractFtpAdapter
     /**
      * @inheritdoc
      */
-    public function read($path)
+    public function read($path, Config $config)
     {
-        if ( ! $object = $this->readStream($path)) {
+        if ( ! $object = $this->readStream($path, $config)) {
             return false;
         }
 
@@ -413,7 +413,7 @@ class Ftp extends AbstractFtpAdapter
     /**
      * @inheritdoc
      */
-    public function readStream($path)
+    public function readStream($path, Config $config)
     {
         $stream = fopen('php://temp', 'w+b');
         $result = ftp_fget($this->getConnection(), $stream, $path, $this->transferMode);

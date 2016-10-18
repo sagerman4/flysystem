@@ -112,19 +112,19 @@ class LocalAdapterTests extends \PHPUnit_Framework_TestCase
         $adapter = $this->adapter;
         $adapter->write('file.txt', 'content', new Config());
         $this->assertTrue($adapter->has('file.txt'));
-        $adapter->delete('file.txt');
+        $adapter->delete('file.txt', new Config());
     }
 
     public function testReadStream()
     {
         $adapter = $this->adapter;
         $adapter->write('file.txt', 'contents', new Config());
-        $result = $adapter->readStream('file.txt');
+        $result = $adapter->readStream('file.txt', new Config());
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('stream', $result);
         $this->assertInternalType('resource', $result['stream']);
         fclose($result['stream']);
-        $adapter->delete('file.txt');
+        $adapter->delete('file.txt', new Config());
     }
 
     public function testWriteStream()
@@ -136,7 +136,7 @@ class LocalAdapterTests extends \PHPUnit_Framework_TestCase
         $adapter->writeStream('dir/file.txt', $temp, new Config(['visibility' => 'public']));
         fclose($temp);
         $this->assertTrue($adapter->has('dir/file.txt'));
-        $result = $adapter->read('dir/file.txt');
+        $result = $adapter->read('dir/file.txt', new Config());
         $this->assertEquals('dummy', $result['contents']);
         $adapter->deleteDir('dir');
     }
@@ -156,7 +156,7 @@ class LocalAdapterTests extends \PHPUnit_Framework_TestCase
         $adapter->updateStream('file.txt', $temp, new Config());
         fclose($temp);
         $this->assertTrue($adapter->has('file.txt'));
-        $adapter->delete('file.txt');
+        $adapter->delete('file.txt', new Config());
     }
 
     public function testCreateZeroDir()
@@ -172,8 +172,8 @@ class LocalAdapterTests extends \PHPUnit_Framework_TestCase
         $adapter->write('file.ext', 'content', new Config(['visibility' => 'public']));
         $this->assertTrue($adapter->copy('file.ext', 'new.ext'));
         $this->assertTrue($adapter->has('new.ext'));
-        $adapter->delete('file.ext');
-        $adapter->delete('new.ext');
+        $adapter->delete('file.ext', new Config());
+        $adapter->delete('new.ext', new Config());
     }
 
     public function testFailingStreamCalls()

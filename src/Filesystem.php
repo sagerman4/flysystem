@@ -172,12 +172,13 @@ class Filesystem implements FilesystemInterface
     /**
      * @inheritdoc
      */
-    public function read($path)
+    public function read($path, array $config = [])
     {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
+        $config = $this->prepareConfig($config);
 
-        if ( ! ($object = $this->getAdapter()->read($path))) {
+        if ( ! ($object = $this->getAdapter()->read($path, $config))) {
             return false;
         }
 
@@ -187,12 +188,13 @@ class Filesystem implements FilesystemInterface
     /**
      * @inheritdoc
      */
-    public function readStream($path)
+    public function readStream($path, array $config = [])
     {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
+        $config = $this->prepareConfig($config);
 
-        if ( ! $object = $this->getAdapter()->readStream($path)) {
+        if ( ! $object = $this->getAdapter()->readStream($path, $config)) {
             return false;
         }
 
@@ -228,12 +230,13 @@ class Filesystem implements FilesystemInterface
     /**
      * @inheritdoc
      */
-    public function delete($path)
+    public function delete($path, array $config = [])
     {
         $path = Util::normalizePath($path);
         $this->assertPresent($path);
+        $config = $this->prepareConfig($config);
 
-        return $this->getAdapter()->delete($path);
+        return $this->getAdapter()->delete($path, $config);
     }
 
     /**
